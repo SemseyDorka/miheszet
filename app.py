@@ -26,7 +26,7 @@ with st.sidebar:
   
     model_option = st.selectbox(
         "Válassz modellt:",
-        ["llama-3.1-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"]
+        [ "llama-3.1-8b-instant"]
     )
     
     
