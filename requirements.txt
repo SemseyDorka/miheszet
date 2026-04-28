@@ -3,3 +3,4 @@ groq
 pymongo
 certifi
 python-dotenv
+streamlit-mic-recorder
