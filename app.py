@@ -95,7 +95,6 @@ tab1, tab2 = st.tabs(["📝 Új bejegyzés", "📚 Korábbi naplók"])
 
 with tab1:
    with tab1:
-    # 1. Előbb feldolgozzuk a hangot, ha van felvétel
     if audio:
         with st.spinner("Hang feldolgozása..."):
             try:
@@ -104,13 +103,11 @@ with tab1:
                     model="whisper-large-v3-turbo",
                     language="hu"
                 )
-                # Beírjuk a session_state-be a felismert szöveget
                 st.session_state.beszed_szoveg = transcription.text
             except Exception as e:
                 st.error(f"Hiba a hangfelismerésben: {e}")
 
-    # 2. Megjelenítjük a szövegmezőt
-    # Ha van valami a beszed_szoveg-ben, az lesz az alapértelmezett érték (value)
+
     input_text = st.text_area(
         "Mai naplóbejegyzés:", 
         value=st.session_state.get('beszed_szoveg', ""),
@@ -118,7 +115,6 @@ with tab1:
         placeholder="Írj ide vagy használd a mikrofont..."
     )
 
-    # 3. Elemzés gomb
     if st.button(" Elemzés futtatása", type="primary"):
         if input_text:
             with st.spinner("Elemzés..."):
@@ -126,7 +122,6 @@ with tab1:
                 db.save_entry(input_text, result)
                 st.success("Bejegyzés mentve!")
                 st.write(result)
-                # Mentés után opcionálisan törölhetjük a session_state-et:
                 st.session_state.beszed_szoveg = ""
         else:
             st.warning("Üres bejegyzés")
@@ -138,7 +133,6 @@ with tab2:
         st.info("Még nincsenek mentett bejegyzések a felhőben.")
     else:
         for bejegyzes in history:
-            # Itt kulcsok alapján érjük el az adatokat (bejegyzes['kulcs'])
             datum = bejegyzes.get('datum', 'Nincs dátum')
             tartalom = bejegyzes.get('tartalom', '')
             elemzes = bejegyzes.get('elemzes', '')
